@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FWI Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .form-row input,
+        .form-row select {
+            width: 31%; /* Adjust width for equal spacing */
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-row label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #218838;
+        }
+        h2 {
+            color: #d9534f;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FWI Prediction Form</h1>
+        <form action="{{ url_for('predict_datapoint') }}" method="POST">
+            
+            <!-- First Row (3 Inputs) -->
+            <div class="form-row">
+                <input type="text" name="Temperature" placeholder="🌡️ Temperature (°C)" required>
+                <input type="text" name="RH" placeholder="💧 Relative Humidity (%)" required>
+                <input type="text" name="WS" placeholder="🌬️ Wind Speed (km/h)" required>
+            </div>
+
+            <!-- Second Row (3 Inputs) -->
+            <div class="form-row">
+                <input type="text" name="Rain" placeholder="🌧️ Rainfall (mm)" required>
+                <input type="text" name="FFMC" placeholder="🔥 FFMC Index" required>
+                <input type="text" name="DMC" placeholder="💥 DMC Index" required>
+            </div>
+
+            <!-- Third Row (3 Inputs) -->
+            <div class="form-row">
+                <input type="text" name="ISI" placeholder="🌪️ ISI Index" required>
+
+                <!-- Fire Class Dropdown (Longer) -->
+                <select name="Classes" id="Classes" required>
+                    <option value="1">🚒 Fire</option> <!-- Different emoji for fire -->
+                    <option value="0">🚫 Not Fire</option>
+                </select>
+
+                <!-- Region Dropdown (Longer) -->
+                <select name="Region" id="Region" required>
+                    <option value="0">🏙️ Bejaia</option> <!-- Updated emoji for Bejaia -->
+                    <option value="1">🏔️ Sidi-Bel Abbes</option>
+                </select>
+            </div>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if results is not none %}
+            <h2>The FWI Prediction is: {{ results }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
